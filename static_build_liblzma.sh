@@ -18,17 +18,24 @@ case "$arch_build_target" in
 esac
 
 
-rm -rf ${traget_output}
-mkdir -p ${traget_output}
+rm -rf "${traget_output}"
+mkdir -p "${traget_output}"
+mkdir -p "${headers_output}"
 
-git clone ${addr_repository}
+git clone "${addr_repository}"
+
+cp "${path_xzlib}/src/liblzma/api/lzma.h" "${headers_output}/"
+cp "${path_xzlib}/src/liblzma/api/lzma/"*.h "${headers_output}/"
 
 cmake \
     -S "${path_xzlib}" \
-    -B "build/${os_build_target}/${arch_build_target}" \
+    -B "${traget_output}" \
     -DCMAKE_C_COMPILER="${zigfile};cc;-target;${build_target}" \
     -DCMAKE_ASM_COMPILER="${zigfile};cc;-target;${build_target}" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_SHARED_LIBS=OFF
-    
-cmake --build ${traget_output} -j$(nproc)
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_POSITION_INDEPENDENT_CODE=OFF \
+    -DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY
+
+
+cmake --build "${traget_output}" --target liblzma -j"$(nproc)"

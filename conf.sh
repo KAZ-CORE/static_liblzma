@@ -22,3 +22,4 @@ build_target="${build_target:-${arch_build_target}-${os_build_target}-${libc_bui
 traget_output="$(pwd)/build/${os_build_target}/${arch_build_target}"
 addr_repository="https://github.com/tukaani-project/xz.git"
 path_xzlib="$(pwd)/xz"
+headers_output="${traget_output}/headers"
