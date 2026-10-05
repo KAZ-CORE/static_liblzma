@@ -25,7 +25,10 @@ mkdir -p "${headers_output}"
 git clone "${addr_repository}"
 
 cp "${path_xzlib}/src/liblzma/api/lzma.h" "${headers_output}/"
-cp "${path_xzlib}/src/liblzma/api/lzma/"*.h "${headers_output}/"
+
+mkdir -p "${headers_output}/lzma"
+
+cp "${path_xzlib}/src/liblzma/api/lzma/"*.h "${headers_output}/lzma/"
 
 cmake \
     -S "${path_xzlib}" \
